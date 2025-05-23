@@ -4,7 +4,7 @@ subtitle: "Report Prepared by UFHCC BCB-SR"
 output: 
   html_document:
     toc: true
-    keep_md: false
+    keep_md: true
     toc_float: false
     number_sections: true
     theme: default
@@ -41,7 +41,7 @@ library(dplyr)
 library(stringr)
 library(ggplot2)
 library(htmltools)
-source("ATACseq_report_funcs.R", local = knitr::knit_global())
+source("R/ATACseq_report_funcs.R", local = knitr::knit_global())
 library(downloadthis)
 select <- dplyr::select
 ```
@@ -402,7 +402,7 @@ dge <- dge[, colnames(dge) %in% high_quality_samples]
 invisible(
   suppressMessages(
     suppressWarnings(
-      capture.output(source("analysis.R", local = knitr::knit_global()))
+      capture.output(source("R/analysis.R", local = knitr::knit_global()))
     )
   )
 )
@@ -584,11 +584,13 @@ If you prefer viewing the data in [IGV](https://www.igv.org), click the **[Downl
 
 Once the folder is downloaded, unzip it, go to [www.igv.org](https://www.igv.org) in your browser, then select **"Tracks" > "Local File"** and select all files in the downloaded folder.
 
-```{r make bigbed, eval = !params$test_mode}
+```{r make bigbed,eval = !params$test_mode}
 results_list <- convert_all_chr_to_ucsc(results_list)
 
-mmu_chrom_sizes="mm10.chrom.sizes"
-hsa_chrom_sizes="hg38.chrom.sizes"
+library(rtracklayer)
+
+mmu_chrom_sizes="/R/mm10.chrom.sizes"
+hsa_chrom_sizes="/R/hg38.chrom.sizes"
 
 chrom_sizes_file <- if (report_params$organism == "mmu") mmu_chrom_sizes else hsa_chrom_sizes
 
