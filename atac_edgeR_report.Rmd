@@ -644,8 +644,8 @@ group_sample_map <- paste(group_sample_map, collapse = " ")
            bb_path = bb_path,
            group_sample_map = group_sample_map)
 
-  system2("bash", args = "../bash/build_ucsc_trackhub.sh")
-  system2("bash", args ="../bash/make_igv_zip.sh")
+  system2("bash", args = "bash/build_ucsc_trackhub.sh")
+  system2("bash", args ="bash/make_igv_zip.sh")
 }
 ```
 
